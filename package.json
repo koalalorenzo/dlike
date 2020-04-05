@@ -1,0 +1,29 @@
+{
+  "name": "dlike-svc",
+  "version": "1.0.0",
+  "description": "Service Workfer for dLike",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack --mode development --watch",
+    "build_dev": "webpack --mode development --watch=false",
+    "build": "webpack --mode production",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+  },
+  "author": {
+    "name": "Lorenzo Setale",
+    "email": "lse@wm64.tech"
+  },
+  "devDependencies": {
+    "ts-loader": "^6.2.2",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "ipfs": "^0.42.0",
+    "orbit-db": "^0.23.1"
+  }
+}
