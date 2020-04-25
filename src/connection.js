@@ -49,17 +49,26 @@ export function GetPageCounter(orbit, domainDB, page) {
 
     console.log(`[GetPageCounter] Using ${address}`)
 
-    orbit.counter(address).then((pageDB) => {
-      if(!addressFound) {
-        domainDB.put(dbKeyPage, pageDB.address.toString())
-        .then(() => {
-          console.log("[GetPageCounter] Database created for the page")
-          return resolve(pageDB)
-        })
-        .catch(reject)
-      }
+    orbit.counter(address)
+      .then((pageDB) => {
+        if(!addressFound) {
+          domainDB.put(dbKeyPage, pageDB.address.toString())
+          .then(() => {
+            console.log("[GetPageCounter] Database created for the page")
+            return pageDB
+          })
+          .catch(reject)
+        }
 
-      return resolve(pageDB)
-    })
+        return pageDB
+      })
+      .then((pageDB) => {
+        pageDB.events.on('ready', () => {
+          console.log(`[GetDomainDatabase] Ready ${address}`)
+          resolve(pageDB)
+        })
+        pageDB.load()
+      })
+      .catch(reject)
   })
 }
