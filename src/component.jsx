@@ -32,7 +32,10 @@ export default class LikeCounter extends Component {
             this.database = db
             
             // Setting the events.
+            this.onNewDatabaseState()
+            db.events.on('ready', this.onNewDatabaseState.bind(this))
             db.events.on('replicated', this.onNewDatabaseState.bind(this))
+            db.events.on('replicate', this.onNewDatabaseState.bind(this))
           })
       })
   }

@@ -25,7 +25,7 @@ export function GetDomainDatabase(orbit, address) {
       .then(db => {
 
         db.events.on('ready', () => {
-          console.log(`[GetDomainDatabase] Ready ${address}`)
+          console.log(`[GetDomainDatabase] Ready ${db.address.toString()}`)
           resolve(db)
         })
         db.load()
@@ -42,12 +42,13 @@ export function GetPageCounter(orbit, domainDB, page) {
     let address = domainDB.get(dbKeyPage)
     let addressFound = true
 
+    console.log(`[GetPageCounter] Got ${address}`)
+
     if(!address) {
       addressFound = false
       address = `DP1${dbKeyPage}`
     }
 
-    console.log(`[GetPageCounter] Using ${address}`)
 
     orbit.counter(address)
       .then((pageDB) => {
@@ -64,7 +65,7 @@ export function GetPageCounter(orbit, domainDB, page) {
       })
       .then((pageDB) => {
         pageDB.events.on('ready', () => {
-          console.log(`[GetDomainDatabase] Ready ${address}`)
+          console.log(`[GetPageCounter] Ready ${pageDB.address.toString()}`)
           resolve(pageDB)
         })
         pageDB.load()
