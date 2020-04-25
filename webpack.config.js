@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    dlike: path.resolve(__dirname, 'src/index.js')
+    index: path.resolve(__dirname, 'src/render.jsx'),
+    dlike: path.resolve(__dirname, 'src/component.jsx')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -17,22 +18,31 @@ module.exports = {
     new webpack.BannerPlugin({
       banner: 'Copyright (c) 2020-2021 Qm64 - [name] [hash] - [file]'
     }),
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: "index.html"
+    })
   ],
 	module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js|\.jsx$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [
+              ['@babel/plugin-transform-react-jsx', {
+                pragma: 'h',
+                pragmaFrag: 'Fragment'
+              }]
+            ]
           }
         }
       }
     ]
   },
+  devtool: 'source-map',
   optimization: {
     minimize: true
   },
@@ -42,14 +52,21 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: false,
+    lazy: false,
     port: 9000,
-    bonjour: true,
     host: '0.0.0.0',
-    allowedHosts: ["*"],
+    allowedHosts: ['*'],
   },
   node: {
     fs: 'empty',
     net: 'empty',
     tls: 'empty'
+  },
+  resolve: { 
+    alias: { 
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat'
+    }
   }
 }
