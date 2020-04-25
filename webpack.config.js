@@ -9,7 +9,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    pathinfo: false
   },
   resolve: {
     extensions: [ '.jsx', '.js' ]
@@ -44,7 +45,12 @@ module.exports = {
   },
   devtool: 'source-map',
   optimization: {
-    minimize: true
+    minimize: true,
+    nodeEnv: 'production',
+    removeAvailableModules: true,
+    removeEmptyChunks: true,
+    mergeDuplicateChunks: true,
+    splitChunks: true,
   },
   performance: {
     hints: false
