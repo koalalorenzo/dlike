@@ -5,13 +5,13 @@ clean:
 .PHONY: clean 
 
 dependencies:
-	yarn
+	npm install --no-audit
 .PHONY: dependencies
 
 build: clean dependencies
-	yarn run webpack --mode=${NODE_ENV}
+	node_modules/.bin/webpack --mode=${NODE_ENV}
 .PHONY: build 
 
 run: dependencies
-	yarn run webpack-dev-server
+	node_modules/.bin/webpack-dev-server
 .PHONY: build 
