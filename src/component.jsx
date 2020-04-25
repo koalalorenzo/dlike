@@ -4,27 +4,34 @@ import { GetIPFS } from './connection'
 export default class LikeCounter extends Component {
 
   constructor() {
-    super();
-    this.ipfs = GetIPFS()
-    this.state = { time: Date.now() };
+    super()
+    this.ipfs = null
+    this.database = null
+    this.state = { counter: 0, liked: false };
   }
 
-  // Lifecycle: Called whenever our component is created
   componentDidMount() {
-    // update time every second
-    this.timer = setInterval(() => {
-      this.setState({ time: Date.now() });
-    }, 1000);
+    GetIPFS().then((ipfs) => {
+      this.ipfs = ipfs
+    })
   }
 
-  // Lifecycle: Called just before our component will be destroyed
-  componentWillUnmount() {
-    // stop when not renderable
-    clearInterval(this.timer);
+  increaseCounter(e){
+    e.preventDefault()
+    if(this.liked) return;
+
+    this.setState(state => ({
+      counter: state.counter + 1,
+      liked: true
+    }));
+
   }
 
   render() {
-    let time = new Date(this.state.time).toLocaleTimeString();
-    return <span>{time}</span>;
+    return (
+      <button onClick={this.increaseCounter.bind(this)}>
+        {this.state.counter}
+      </button>
+    )
   }
 }

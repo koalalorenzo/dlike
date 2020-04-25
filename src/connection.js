@@ -10,3 +10,11 @@ export function GetIPFS() {
     return ipfs
   })
 }
+
+export function NewDatabase(domain) {
+  return Promise.resolve()
+}
+
+export function GetDatabase(address, ipfs) {
+  return Promise.resolve()
+}
