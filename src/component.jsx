@@ -1,33 +1,64 @@
 import { h, Component } from 'preact'
-import { GetIPFS } from './connection'
+import { 
+  GetDomainDatabase, 
+  GetPageCounter, 
+  GetIPFS, 
+  GetOnOrbit 
+} from './connection'
 
 export default class LikeCounter extends Component {
-
-  constructor() {
+  constructor(props) {
     super()
-    this.ipfs = null
     this.database = null
-    this.state = { counter: 0, liked: false };
+    this.props = props
+    this.state = { 
+      counter: 0, 
+      liked: false, 
+      needsSetup: !!props.dbaddr ? true: false 
+    };
   }
 
   componentDidMount() {
-    GetIPFS().then((ipfs) => {
-      this.ipfs = ipfs
+    GetIPFS()
+      .then(GetOnOrbit)
+      .then((orbit) => {
+        // Using Orbit now that we have it to get the Domain DB
+        GetDomainDatabase(orbit, this.props.dbaddr)
+          .then((domainDB) => {
+            return GetPageCounter(orbit, domainDB, window.location.pathname)
+          })
+          .then((db) => {
+            this.database = db
+            
+            // Setting the events.
+            db.events.on('replicated', this.onNewDatabaseState.bind(this))
+          })
+      })
+  }
+
+  onNewDatabaseState() {
+    this.setState({
+      counter: this.database.value
+    });
+  }
+
+  increaseCounter(e) {
+    e.preventDefault()
+    // if(this.liked) return;
+
+    this.database.inc().then(() => {
+      this.setState({
+        counter: this.database.value,
+        liked: true
+      });  
     })
   }
 
-  increaseCounter(e){
-    e.preventDefault()
-    if(this.liked) return;
-
-    this.setState(state => ({
-      counter: state.counter + 1,
-      liked: true
-    }));
-
-  }
-
   render() {
+    if(this.state.needsSetup) {
+      return <div>Unable to find key value</div>
+    }
+
     return (
       <button onClick={this.increaseCounter.bind(this)}>
         {this.state.counter}

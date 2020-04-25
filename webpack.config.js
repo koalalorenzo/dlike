@@ -4,13 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    index: path.resolve(__dirname, 'src/render.jsx'),
-    dlike: path.resolve(__dirname, 'src/component.jsx')
+    dlike: path.resolve(__dirname, 'src/index.jsx'),
+    setup: path.resolve(__dirname, 'src/setup.jsx')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    pathinfo: false
+    pathinfo: false,
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: [ '.jsx', '.js' ]
@@ -20,8 +21,22 @@ module.exports = {
       banner: 'Copyright (c) 2020-2021 Qm64 - [name] [hash] - [file]'
     }),
     new HtmlWebpackPlugin({
-      template: "index.html"
+      template: "src/example.ejs",
+      filename: "example.html",
+      inject: false,
+      meta: {
+        charset: { charset: 'utf-8' }
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: "src/setup.ejs",
+      filename: "index.html",
+      inject: false,
+      meta: {
+        charset: { charset: 'utf-8' }
+      },
     })
+
   ],
 	module: {
     rules: [
@@ -50,7 +65,6 @@ module.exports = {
     removeAvailableModules: true,
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
-    splitChunks: true,
   },
   performance: {
     hints: false

@@ -1,6 +1,5 @@
 const IPFS = require('ipfs')
 const OrbitDB = require('orbit-db')
-const crypto = require('crypto')
 
 export function GetIPFS() {
   if(window.ipfs !== undefined) return Promise.resolve(ipfs)
@@ -11,10 +10,43 @@ export function GetIPFS() {
   })
 }
 
-export function NewDatabase(domain) {
-  return Promise.resolve()
+export function GetOnOrbit(ipfs) {
+  return OrbitDB.createInstance(ipfs)
 }
 
-export function GetDatabase(address, ipfs) {
-  return Promise.resolve()
+export function NewDomainDatabase(orbit, domain) {
+  return orbit.keyvalue(`dlike-domain-v1-${domain}`)
+}
+
+export function GetDomainDatabase(orbit, address) {
+  return orbit.keyvalue(`${address}`)
+}
+
+export function GetPageCounter(orbit, domainDB, page) {
+  return new Promise((resolve, reject) => {
+    const keyPage = `${page.replace("/","-")}`
+
+    let address = domainDB.get(keyPage)
+    let addressFound = true
+
+    if(!address) {
+      console.log(`[GetPageCounter] Page not available in database, creating ${address}`)
+
+      addressFound = false
+      address = `dlike-page${page.replace("/","-")}`
+    }
+
+    orbit.counter(address).then((pageDB) => {
+      if(!addressFound) {
+        domainDB.put(keyPage, db.address.toString())
+        .then(() => {
+          console.log("[GetPageCounter] Database created for the page")
+          return resolve(pageDB)
+        })
+        .catch(reject)
+      }
+
+      return resolve(pageDB)
+    })
+  })
 }
