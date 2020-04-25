@@ -14,7 +14,7 @@ export default class LikeCounter extends Component {
     this.state = { 
       counter: 0, 
       liked: false, 
-      needsSetup: !!props.dbaddr ? true: false 
+      needsSetup: !!props.key ? true: false 
     };
   }
 
@@ -23,8 +23,9 @@ export default class LikeCounter extends Component {
       .then(GetOnOrbit)
       .then((orbit) => {
         // Using Orbit now that we have it to get the Domain DB
-        GetDomainDatabase(orbit, this.props.dbaddr)
+        GetDomainDatabase(orbit, this.props.key)
           .then((domainDB) => {
+            console.log(`Using Database:`, domainDB)
             return GetPageCounter(orbit, domainDB, window.location.pathname)
           })
           .then((db) => {
@@ -34,6 +35,10 @@ export default class LikeCounter extends Component {
             db.events.on('replicated', this.onNewDatabaseState.bind(this))
           })
       })
+  }
+
+  componentWillUnmount() {
+    if(this.database) this.database.stop()
   }
 
   onNewDatabaseState() {
