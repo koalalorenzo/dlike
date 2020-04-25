@@ -15,10 +15,11 @@ export function GetOnOrbit(ipfs) {
 }
 
 export function NewDomainDatabase(orbit, domain) {
-  return GetDomainDatabase(orbit, `dlike-domain-v1-${domain}`)
+  return GetDomainDatabase(orbit, `DD1-${domain}`)
 }
 
 export function GetDomainDatabase(orbit, address) {
+  console.log(`[GetDomainDatabase] Using ${address}`)
   return new Promise((resolve, reject) => {
     orbit.keyvalue(address)
       .then(db => {
@@ -36,21 +37,21 @@ export function GetDomainDatabase(orbit, address) {
 
 export function GetPageCounter(orbit, domainDB, page) {
   return new Promise((resolve, reject) => {
-    const keyPage = `${page.replace("/","-")}`
+    const dbKeyPage = `${page.replace("/","-")}`
 
-    let address = domainDB.get(keyPage)
+    let address = domainDB.get(dbKeyPage)
     let addressFound = true
 
     if(!address) {
       addressFound = false
-      address = `dlike-page${page.replace("/","-")}`
-
-      console.log(`[GetPageCounter] Page not available in database, creating ${address}`)
+      address = `DP1${dbKeyPage}`
     }
+
+    console.log(`[GetPageCounter] Using ${address}`)
 
     orbit.counter(address).then((pageDB) => {
       if(!addressFound) {
-        domainDB.put(keyPage, pageDB.address.toString())
+        domainDB.put(dbKeyPage, pageDB.address.toString())
         .then(() => {
           console.log("[GetPageCounter] Database created for the page")
           return resolve(pageDB)
