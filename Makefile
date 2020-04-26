@@ -5,7 +5,7 @@ clean:
 .PHONY: clean 
 
 dependencies:
-	npm install --no-audit
+	yarn install --no-audit
 .PHONY: dependencies
 
 build: clean dependencies
