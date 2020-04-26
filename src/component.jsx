@@ -12,10 +12,11 @@ export default class LikeCounter extends Component {
     super()
     this.database = null
     this.props = {
-      name: window.location.pathname,
+      page: window.location.pathname,
       ...props
     }
     this.state = { 
+      ready: false,
       counter: 0, 
       liked: false, 
       needsSetup: !props.dbkey ? true : false 
@@ -30,15 +31,15 @@ export default class LikeCounter extends Component {
         GetDomainDatabase(orbit, this.props.dbkey)
           .then((domainDB) => {
             domainDB.load()
-            this.database = db
+            this.database = domainDB
             
             // Restart events
             this.onNewDatabaseState()
-            db.events.on('ready', this.onNewDatabaseState.bind(this))
-            db.events.on('replicated', this.onNewDatabaseState.bind(this))
-            db.events.on('replicate', this.onNewDatabaseState.bind(this))
+            domainDB.events.on('ready', this.onNewDatabaseState.bind(this))
+            domainDB.events.on('replicated', this.onNewDatabaseState.bind(this))
+            domainDB.events.on('replicate', this.onNewDatabaseState.bind(this))
             // debug
-            db.events.on('peer', console.log)
+            domainDB.events.on('peer', console.log)
           })
       })
   }
@@ -48,10 +49,11 @@ export default class LikeCounter extends Component {
   }
 
   onNewDatabaseState() {
-    console.log(`[onNewDatabaseState] New state: ${this.database.value}`)
     this.setState({
+      ready: true,
       counter: GetAmountOfLikes(this.database, this.props.page)
-    });
+    })
+    console.log(`[onNewDatabaseState] New state: ${this.state.counter}`)
   }
 
   increaseCounter(e) {
@@ -67,9 +69,10 @@ export default class LikeCounter extends Component {
     }
 
     return (
-      <button onClick={this.increaseCounter.bind(this)}>
-        {this.state.counter}
-      </button>
+      this.state.ready && 
+        <button onClick={this.increaseCounter.bind(this)}>
+          {this.state.counter}
+        </button>
     )
   }
 }
