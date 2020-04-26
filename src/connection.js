@@ -36,6 +36,7 @@ export function GetDomainDatabase(orbit, address, options={}) {
           console.log(`[GetDomainDatabase] Ready ${db.address.toString()}`)
           resolve(db)
         })
+        db.events.on('peer', console.log)
         db.load()
       })
       .catch(reject)
