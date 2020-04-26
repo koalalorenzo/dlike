@@ -1,16 +1,20 @@
 import { h, Component } from 'preact'
 import { 
   GetDomainDatabase, 
-  GetPageCounter, 
+  GetAmountOfLikes,
+  PutALike,
   GetIPFS, 
   GetOnOrbit 
-} from './connection'
+} from './database'
 
 export default class LikeCounter extends Component {
   constructor(props) {
     super()
     this.database = null
-    this.props = props
+    this.props = {
+      name: window.location.pathname,
+      ...props
+    }
     this.state = { 
       counter: 0, 
       liked: false, 
@@ -26,16 +30,14 @@ export default class LikeCounter extends Component {
         GetDomainDatabase(orbit, this.props.dbkey)
           .then((domainDB) => {
             domainDB.load()
-            return GetPageCounter(orbit, domainDB, window.location.pathname)
-          })
-          .then((db) => {
             this.database = db
             
-            // Setting the events.
+            // Restart events
             this.onNewDatabaseState()
             db.events.on('ready', this.onNewDatabaseState.bind(this))
             db.events.on('replicated', this.onNewDatabaseState.bind(this))
             db.events.on('replicate', this.onNewDatabaseState.bind(this))
+            // debug
             db.events.on('peer', console.log)
           })
       })
@@ -48,7 +50,7 @@ export default class LikeCounter extends Component {
   onNewDatabaseState() {
     console.log(`[onNewDatabaseState] New state: ${this.database.value}`)
     this.setState({
-      counter: this.database.value
+      counter: GetAmountOfLikes(this.database, this.props.page)
     });
   }
 
@@ -56,12 +58,7 @@ export default class LikeCounter extends Component {
     e.preventDefault()
     // if(this.liked) return;
 
-    this.database.inc().then(() => {
-      this.setState({
-        counter: this.database.value,
-        liked: true
-      });  
-    })
+    PutALike(this.database, this.props.page)
   }
 
   render() {

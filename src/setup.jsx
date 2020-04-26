@@ -4,7 +4,7 @@ import {
   NewDomainDatabase, 
   GetIPFS, 
   GetOnOrbit 
-} from './connection'
+} from './database'
 
 class SetupKey extends Component {
   constructor(props) {
