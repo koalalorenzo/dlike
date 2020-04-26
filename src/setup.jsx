@@ -13,8 +13,8 @@ class SetupKey extends Component {
     this.props = props
     this.state = { 
       domain: "", 
-      key: "--",
-      forceNew: false,
+      key: "",
+      resetDB: false,
     };
   }
 
@@ -33,7 +33,7 @@ class SetupKey extends Component {
   generateAddress(e) {
     e.preventDefault()
 
-    NewDomainDatabase(this.orbit, this.state.domain, {overwrite: this.state.forceNew})
+    NewDomainDatabase(this.orbit, this.state.domain, {overwrite: this.state.resetDB})
       .then((domainDB) => {
         this.setState({
           key: domainDB.address.toString()
@@ -44,7 +44,7 @@ class SetupKey extends Component {
   toggleFoceNew(e) {
     e.preventDefault()
 
-    this.setState({forceNew: !this.state.forceNew})
+    this.setState({resetDB: !this.state.resetDB})
   }
 
   render() {
@@ -58,12 +58,12 @@ class SetupKey extends Component {
           onChange={this.updateState.bind(this)} 
         />
         <button onClick={this.generateAddress.bind(this)}> Generate Key </button>
-        <input onChange={this.toggleFoceNew.bind(this)} type="checkbox" id="forceNewCheck"></input>
-        <label for="forceNewCheck">Force New</label>
+        <input onChange={this.toggleFoceNew.bind(this)} type="checkbox" id="resetCheck"></input>
+        <label for="resetCheck">Reset DB</label>
         {!!this.state.key && 
           <div>
-            Your Key: 
-            <p><code>{this.state.key}</code></p>
+            Your Code: 
+            <p><code>{`<div data-prop-dbkey="${this.state.key}"><script src="dlike.js"></script></div>`}</code></p>
             DO NOT close this window before visiting your website!
           </div>
         }
