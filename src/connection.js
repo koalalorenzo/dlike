@@ -22,7 +22,8 @@ export function GetOnOrbit(ipfs) {
 }
 
 export function NewDomainDatabase(orbit, domain, options={}) {
-  return GetDomainDatabase(orbit, `DD1-${domain}`, options={})
+  console.log("[NewDomainDatabase] Got options", options)
+  return GetDomainDatabase(orbit, `DD1-${domain}`, options)
 }
 
 export function GetDomainDatabase(orbit, address, options={}) {
