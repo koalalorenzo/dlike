@@ -1,6 +1,13 @@
 const IPFS = require('ipfs')
 const OrbitDB = require('orbit-db')
 
+const DEFAULT_DB_OPTIONS = {
+  // Give write access to everyone
+  accessController: {
+    write: ['*']
+  }
+}
+
 export function GetIPFS() {
   if(window.ipfs !== undefined) return Promise.resolve(ipfs)
 
@@ -14,14 +21,14 @@ export function GetOnOrbit(ipfs) {
   return OrbitDB.createInstance(ipfs)
 }
 
-export function NewDomainDatabase(orbit, domain) {
-  return GetDomainDatabase(orbit, `DD1-${domain}`)
+export function NewDomainDatabase(orbit, domain, options={}) {
+  return GetDomainDatabase(orbit, `DD1-${domain}`, options={})
 }
 
-export function GetDomainDatabase(orbit, address) {
+export function GetDomainDatabase(orbit, address, options={}) {
   console.log(`[GetDomainDatabase] Using ${address}`)
   return new Promise((resolve, reject) => {
-    orbit.keyvalue(address)
+    orbit.keyvalue(address, {...DEFAULT_DB_OPTIONS, ...options})
       .then(db => {
 
         db.events.on('ready', () => {
@@ -35,7 +42,7 @@ export function GetDomainDatabase(orbit, address) {
 
 }
 
-export function GetPageCounter(orbit, domainDB, page) {
+export function GetPageCounter(orbit, domainDB, page, options={}) {
   return new Promise((resolve, reject) => {
     const dbKeyPage = `${page.replace("/","-")}`
 
@@ -50,7 +57,7 @@ export function GetPageCounter(orbit, domainDB, page) {
     }
 
 
-    orbit.counter(address)
+    orbit.counter(address, {...DEFAULT_DB_OPTIONS, ...options})
       .then((pageDB) => {
         if(!addressFound) {
           domainDB.put(dbKeyPage, pageDB.address.toString())
