@@ -1,4 +1,5 @@
-import { h, Component, render } from 'preact'
+import { h, Component } from 'preact'
+import habitat from 'preact-habitat'
 import { 
   NewDomainDatabase, 
   GetIPFS, 
@@ -11,8 +12,9 @@ class SetupKey extends Component {
     this.orbit = null
     this.props = props
     this.state = { 
-      domain: "qm64.tech", 
+      domain: "", 
       key: "--",
+      forceNew: false,
     };
   }
 
@@ -31,7 +33,7 @@ class SetupKey extends Component {
   generateAddress(e) {
     e.preventDefault()
 
-    NewDomainDatabase(this.orbit, this.state.domain)
+    NewDomainDatabase(this.orbit, this.state.domain, {overwrite: this.state.forceNew})
       .then((domainDB) => {
         this.setState({
           key: domainDB.address.toString()
@@ -39,19 +41,42 @@ class SetupKey extends Component {
       })
   }
 
+  toggleFoceNew(e) {
+    e.preventDefault()
+
+    this.setState({forceNew: !this.state.forceNew})
+  }
+
   render() {
     return (
       <div>
+        <label for="domainTextbox">Your domain:</label>
         <input 
           type="text" 
-          value={this.state.domain} 
-          onChange={this.updateState} 
+          id="domainTextbox"
+          value={this.state.domain}
+          onChange={this.updateState.bind(this)} 
         />
-        <button onClick={this.generateAddress}> Generate Key </button>
-        <div>Your Key: {this.state.key}</div>
+        <button onClick={this.generateAddress.bind(this)}> Generate Key </button>
+        <input onChange={this.toggleFoceNew.bind(this)} type="checkbox" id="forceNewCheck"></input>
+        <label for="forceNewCheck">Force New</label>
+        {!!this.state.key && 
+          <div>
+            Your Key: 
+            <p><code>{this.state.key}</code></p>
+            DO NOT close this window before visiting your website!
+          </div>
+        }
       </div>
     )
   }
 }
 
-render(<SetupKey />, document.getElementById('dlikes_setup'));
+
+const { render } = habitat(SetupKey)
+
+render({
+  inline: true,
+  clean: false,
+  clientSpecified: false,
+})
