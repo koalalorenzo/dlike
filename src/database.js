@@ -2,7 +2,6 @@ const IPFS = require('ipfs')
 const OrbitDB = require('orbit-db')
 
 const DEFAULT_DB_OPTIONS = {
-  indexBy: 'page',
   // Give write access to everyone
   accessController: {
     write: ['*']
@@ -33,7 +32,7 @@ export function GetDomainDatabase(orbit, address, options={}) {
     // We tried counters, then key value containing counter addresses but it 
     // was causing a lot of problems for connections, then the solution was 
     // obvious: document db!
-    orbit.docs(address, {...DEFAULT_DB_OPTIONS, ...options})
+    orbit.eventlog(address, {...DEFAULT_DB_OPTIONS, ...options})
       .then(db => {
 
         db.events.on('ready', () => {
@@ -52,7 +51,7 @@ export function GetDomainDatabase(orbit, address, options={}) {
 
 export function PutALike(domainDB, page) {
   const like = {
-    _id: domainDB.identity.publicKey,
+    user: domainDB.identity.publicKey,
     page: `${page.replace('/', '-')}`,
   }
   console.log(like)
@@ -60,5 +59,5 @@ export function PutALike(domainDB, page) {
 }
 
 export function GetAmountOfLikes(domainDB, page){
-  return domainDB.query((doc) => doc.page === page).length
+  return domainDB.iterator({ limit: -1 }).collect().filter((el) => el.page == page).length
 }

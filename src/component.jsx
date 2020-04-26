@@ -27,9 +27,11 @@ export default class LikeCounter extends Component {
     GetIPFS()
       .then(GetOnOrbit)
       .then((orbit) => {
+        console.log("[OrbitDB] Started")
         // Using Orbit now that we have it to get the Domain DB
         GetDomainDatabase(orbit, this.props.dbkey)
           .then((domainDB) => {
+            console.log("[DomainDatabase] Started")
             domainDB.load()
             this.database = domainDB
             
@@ -38,8 +40,9 @@ export default class LikeCounter extends Component {
             domainDB.events.on('ready', this.onNewDatabaseState.bind(this))
             domainDB.events.on('replicated', this.onNewDatabaseState.bind(this))
             domainDB.events.on('replicate', this.onNewDatabaseState.bind(this))
-            // debug
-            domainDB.events.on('peer', console.log)
+          })
+          .catch((err) => {
+            console.error("[componentDidMount] Error", err)
           })
       })
   }
