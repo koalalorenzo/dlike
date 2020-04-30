@@ -5,23 +5,26 @@ variables:
   DS_DEFAULT_ANALYZERS: "retire.js,gemnasium"
   GIT_SUBMODULE_STRATEGY: recursive
 
-image: registry.gitlab.com/qm64/packer/toolchain:latest
+image: registry.gitlab.com/qm64/packer/toolchain-node:latest
 
 test:
   script:
-  - make clean build
+    - npm install -g yarn
+    - make clean build
   except:
-  - master
+    - master
   artifacts:
+    expose_as: 'Preview'
     paths:
       - public
     expire_in: 1 day
 
 pages:
   script:
-  - make clean build
+    - npm install -g yarn
+    - make clean build
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
