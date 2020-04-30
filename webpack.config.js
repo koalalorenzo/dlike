@@ -59,13 +59,13 @@ module.exports = {
     ]
   },
   devtool: 'source-map',
-  optimization: {
-    minimize: true,
-    nodeEnv: 'production',
-    removeAvailableModules: true,
-    removeEmptyChunks: true,
-    mergeDuplicateChunks: true,
-  },
+  // optimization: {
+  //   minimize: true,
+  //   nodeEnv: 'production',
+  //   removeAvailableModules: true,
+  //   removeEmptyChunks: true,
+  //   mergeDuplicateChunks: true,
+  // },
   performance: {
     hints: false
   },

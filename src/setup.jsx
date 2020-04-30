@@ -16,13 +16,12 @@ class SetupKey extends Component {
       key: "",
       resetDB: false,
     };
-  }
 
-  componentDidMount() {
     GetIPFS()
       .then(GetOnOrbit)
       .then((orbit) => {
         this.orbit = orbit
+        this.setState({loaded: true})
       })
   }
 
@@ -48,8 +47,9 @@ class SetupKey extends Component {
   }
 
   render() {
+    if(!this.state.loaded) return <div>Loading... Please wait</div>
     return (
-      <div>
+      <div>  
         <label for="domainTextbox">Your domain:</label>
         <input 
           type="text" 

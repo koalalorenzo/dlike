@@ -27,7 +27,7 @@ export default class LikeCounter extends Component {
     GetIPFS()
       .then(GetOnOrbit)
       .then((orbit) => {
-        console.log("[OrbitDB] Started")
+        console.log("[OrbitDB] Started", orbit)
         // Using Orbit now that we have it to get the Domain DB
         GetDomainDatabase(orbit, this.props.dbkey)
           .then((domainDB) => {
