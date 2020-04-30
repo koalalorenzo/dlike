@@ -5,7 +5,7 @@ variables:
   DS_DEFAULT_ANALYZERS: "retire.js,gemnasium"
   GIT_SUBMODULE_STRATEGY: recursive
 
-image: registry.gitlab.com/qm64/packer/toolchain-node:latest
+image: registry.gitlab.com/qm64/packer/toolchain:latest
 
 test:
   script:
