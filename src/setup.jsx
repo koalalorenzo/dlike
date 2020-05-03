@@ -5,6 +5,8 @@ import {
   GetIPFS, 
   GetOnOrbit 
 } from './database'
+import LikeCounter from './component.jsx'
+
 
 class SetupKey extends Component {
   constructor(props) {
@@ -64,7 +66,9 @@ class SetupKey extends Component {
           <div>
             Your Code: 
             <p><code>{`<div data-prop-dbkey="${this.state.key}"><script src="dlike.js"></script></div>`}</code></p>
-            DO NOT close this window before visiting your website!
+            DO NOT close this window before visiting your website!<br />
+            This is your button: <br />
+            <LikeCounter dbkey={this.state.key} />
           </div>
         }
       </div>
