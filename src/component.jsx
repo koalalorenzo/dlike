@@ -1,8 +1,6 @@
 import { h, Component } from 'preact'
 import { 
   GetDomainDatabase, 
-  GetAmountOfLikes,
-  PutALike,
   GetIPFS, 
   GetOnOrbit 
 } from './database'
@@ -51,16 +49,16 @@ export default class LikeCounter extends Component {
   onNewDatabaseState() {
     this.setState({
       ready: true,
-      counter: GetAmountOfLikes(this.database)
+      counter: this.database.value
     })
     console.log(`[onNewDatabaseState] New state: ${this.state.counter}`)
   }
 
   increaseCounter(e) {
     e.preventDefault()
-    if(this.liked) return;
 
-    PutALike(this.database)
+    this.database.inc().then(this.onNewDatabaseState.bind(this))
+    
   }
 
   render() {

@@ -22,7 +22,6 @@ export function GetOnOrbit(ipfs) {
 }
 
 export function NewDomainDatabase(orbit, domain, options={}) {
-  console.log("[NewDomainDatabase] Got options", options)
   return GetDomainDatabase(orbit, `dlike-${domain}`, options)
 }
 
@@ -32,27 +31,23 @@ export function GetDomainDatabase(orbit, address, options={}) {
     // We tried counters, then key value containing counter addresses but it 
     // was causing a lot of problems for connections, then the solution was 
     // obvious: document db!
-    orbit.counter(address, {...DEFAULT_DB_OPTIONS, ...options})
+    const dbOptions = {...DEFAULT_DB_OPTIONS, ...options}
+    console.log("[GetDomainDatabase] Got options", dbOptions)
+    orbit.counter(address, dbOptions)
       .then(db => {
+        console.log(`[GetDomainDatabase] Got DB ${db.address.toString()}`)
+        console.log(`[GetDomainDatabase] Loading...`)
 
         db.events.on('ready', () => {
           console.log(`[GetDomainDatabase] Ready ${db.address.toString()}`)
           resolve(db)
         })
         // debug
-        db.events.on('peer', console.log)
-        db.events.on('data', console.log )
+        db.events.on('peer', () => console.log("[GetDomainDatabase] peer found"))
+        db.events.on('data', () => console.log("[GetDomainDatabase] data found"))
         db.load()
       })
       .catch(reject)
   })
 
-}
-
-export function PutALike(domainDB) {
-  return domainDB.inc()
-}
-
-export function GetAmountOfLikes(domainDB){
-  return domainDB.value
 }
