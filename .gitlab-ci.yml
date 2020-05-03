@@ -17,6 +17,7 @@ build:
     expose_as: 'Preview'
     paths:
       - public
+      - public/index.html
     expire_in: 1 day
 
 pages:
