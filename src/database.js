@@ -32,7 +32,7 @@ export function GetDomainDatabase(orbit, address, options={}) {
     // We tried counters, then key value containing counter addresses but it 
     // was causing a lot of problems for connections, then the solution was 
     // obvious: document db!
-    orbit.eventlog(address, {...DEFAULT_DB_OPTIONS, ...options})
+    orbit.counter(address, {...DEFAULT_DB_OPTIONS, ...options})
       .then(db => {
 
         db.events.on('ready', () => {
@@ -49,15 +49,10 @@ export function GetDomainDatabase(orbit, address, options={}) {
 
 }
 
-export function PutALike(domainDB, page) {
-  const like = {
-    user: domainDB.identity.publicKey,
-    page: `${page.replace('/', '-')}`,
-  }
-  console.log(like)
-  return domainDB.put(like)
+export function PutALike(domainDB) {
+  return domainDB.inc()
 }
 
-export function GetAmountOfLikes(domainDB, page){
-  return domainDB.iterator({ limit: -1 }).collect().filter((el) => el.page == page).length
+export function GetAmountOfLikes(domainDB){
+  return domainDB.value
 }

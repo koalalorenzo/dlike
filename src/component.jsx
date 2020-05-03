@@ -11,10 +11,7 @@ export default class LikeCounter extends Component {
   constructor(props) {
     super()
     this.database = null
-    this.props = {
-      page: window.location.pathname,
-      ...props
-    }
+    this.props = props
     this.state = { 
       ready: false,
       counter: 0, 
@@ -54,21 +51,21 @@ export default class LikeCounter extends Component {
   onNewDatabaseState() {
     this.setState({
       ready: true,
-      counter: GetAmountOfLikes(this.database, this.props.page)
+      counter: GetAmountOfLikes(this.database)
     })
     console.log(`[onNewDatabaseState] New state: ${this.state.counter}`)
   }
 
   increaseCounter(e) {
     e.preventDefault()
-    // if(this.liked) return;
+    if(this.liked) return;
 
-    PutALike(this.database, this.props.page)
+    PutALike(this.database)
   }
 
   render() {
     if(this.state.needsSetup) {
-      return <div>Unable to find key value</div>
+      return <div>Unable to find key value: Please ready qm64.tech blog post!</div>
     }
 
     return (
