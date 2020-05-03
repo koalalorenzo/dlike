@@ -8,7 +8,7 @@ module.exports = {
     setup: path.resolve(__dirname, 'src/setup.jsx')
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     filename: '[name].js',
     pathinfo: false,
     libraryTarget: 'umd'

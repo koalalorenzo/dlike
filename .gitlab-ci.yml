@@ -7,7 +7,7 @@ variables:
 
 image: registry.gitlab.com/qm64/packer/toolchain:latest
 
-test:
+build:
   script:
     - npm install -g yarn
     - make clean build
@@ -16,7 +16,7 @@ test:
   artifacts:
     expose_as: 'Preview'
     paths:
-      - public
+      - public/index.html
     expire_in: 1 day
 
 pages:
