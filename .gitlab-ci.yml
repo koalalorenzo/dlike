@@ -16,7 +16,7 @@ build:
   artifacts:
     expose_as: 'Preview'
     paths:
-      - public/index.html
+      - public
     expire_in: 1 day
 
 pages:
