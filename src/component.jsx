@@ -19,20 +19,23 @@ export default class LikeCounter extends Component {
   }
 
   componentDidMount() {
-    GetIPFS()
+    return GetIPFS()
       .then(GetOnOrbit)
       .then((orbit) => {
         console.log("[OrbitDB] Started", orbit)
         // Using Orbit now that we have it to get the Domain DB
-        GetDomainDatabase(orbit, this.props.dbkey)
+        return GetDomainDatabase(orbit, this.props.dbkey)
           .then((domainDB) => {
-            console.log("[DomainDatabase] Started")
             domainDB.load()
+            console.log("[DomainDatabase] Loading database...",domainDB)
             this.database = domainDB
             
             // Restart events
             this.onNewDatabaseState()
-            domainDB.events.on('ready', this.onNewDatabaseState.bind(this))
+            domainDB.events.on('ready', (data) => {
+              console.log("[DomainDatabase] Database loaded", data, domainDB)
+              this.onNewDatabaseState.bind(this)
+            })
             domainDB.events.on('replicated', this.onNewDatabaseState.bind(this))
             domainDB.events.on('replicate', this.onNewDatabaseState.bind(this))
           })
@@ -42,23 +45,18 @@ export default class LikeCounter extends Component {
       })
   }
 
-  componentWillUnmount() {
-    if(this.database) this.database.stop()
-  }
-
   onNewDatabaseState() {
     this.setState({
       ready: true,
       counter: this.database.value
     })
-    console.log(`[onNewDatabaseState] New state: ${this.state.counter}`)
+    console.log(`[onNewDatabaseState] Counter Value: ${this.database.value}`)
   }
 
   increaseCounter(e) {
     e.preventDefault()
 
     this.database.inc().then(this.onNewDatabaseState.bind(this))
-    
   }
 
   render() {
