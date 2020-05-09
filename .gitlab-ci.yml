@@ -1,0 +1,31 @@
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+
+variables:
+  DS_DEFAULT_ANALYZERS: "retire.js,gemnasium"
+  GIT_SUBMODULE_STRATEGY: recursive
+
+image: registry.gitlab.com/qm64/packer/toolchain:latest
+
+build:
+  script:
+    - npm install -g yarn
+    - make clean build
+  except:
+    - master
+  artifacts:
+    expose_as: 'Preview'
+    paths:
+      - public
+      - public/index.html
+    expire_in: 1 day
+
+pages:
+  script:
+    - npm install -g yarn
+    - make clean build
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
