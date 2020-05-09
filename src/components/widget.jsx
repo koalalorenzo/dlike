@@ -3,7 +3,7 @@ import {
   GetDomainDatabase, 
   GetIPFS, 
   GetOnOrbit 
-} from './database'
+} from '../database'
 
 export default class LikeCounter extends Component {
   constructor(props) {
