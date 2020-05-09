@@ -1,6 +1,19 @@
 const IPFS = require('ipfs')
 const OrbitDB = require('orbit-db')
 
+const DEFAULT_IPFS_OPTIONS = {
+  repo: '/dlike.qm64.tech',
+  EXPERIMENTAL: { ipnsPubsub: true , sharding: false },
+  preload: {enabled: false},
+  config: { 
+    Addresses: {
+      Swarm: [
+        '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star',
+      ],
+    }
+  }
+}
+
 const DEFAULT_DB_OPTIONS = {
   // Give write access to everyone
   accessController: {
@@ -11,7 +24,7 @@ const DEFAULT_DB_OPTIONS = {
 export function GetIPFS() {
   if(window.ipfs !== undefined) return Promise.resolve(ipfs)
 
-  return IPFS.create().then(async ipfs => {
+  return IPFS.create(DEFAULT_IPFS_OPTIONS).then(async ipfs => {
     if(window.ipfs === undefined) window.ipfs = ipfs
     return ipfs
   })
