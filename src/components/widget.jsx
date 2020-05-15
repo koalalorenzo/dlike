@@ -66,8 +66,8 @@ export default class LikeCounter extends Component {
 
     return (
       this.state.ready && 
-        <button onClick={this.increaseCounter.bind(this)}>
-          {this.state.counter}
+        <button className={this.props.className} onClick={this.increaseCounter.bind(this)}>
+          {this.props.beforeText}{this.state.counter}{this.props.afterText}
         </button>
     )
   }
