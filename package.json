@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "ipfs": "^0.40.0",
+    "muicss": "^0.10.2",
     "orbit-db": "^0.23.1",
     "preact": "^10.4.0",
     "preact-habitat": "^3.3.0"
