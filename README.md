@@ -19,7 +19,7 @@ if you want to help! You can follow updates on this or other projects on:
 
 ## How to setup the widget
 To generate your own widget you can visit the 
-[project page](https://qm64.gitlab.io/dlike/) where you can setup it.
+[project page](https://dlike.qm64.tech/) where you can setup it.
 There you can create a widget or load an existing one by knowing the DB Address.
 
 ## Requirements
