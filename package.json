@@ -21,9 +21,9 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "ipfs": "^0.40.0",
+    "ipfs": "^0.44.0",
     "muicss": "^0.10.2",
-    "orbit-db": "^0.23.1",
+    "orbit-db": "^0.24.1",
     "preact": "^10.4.0",
     "preact-habitat": "^3.3.0"
   },
