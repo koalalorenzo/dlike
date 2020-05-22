@@ -166,7 +166,7 @@ export default class Setup extends Component {
               </Col>
             </Row>
           }
-        <div align="center">Made with Love by <a href="https://qm64.tech/">Qm64</a></div>
+        <div style="margin-top: 30px;" align="center">Made with Love by <a href="https://qm64.tech/">Qm64</a></div>
       </Container>
     )
   }
