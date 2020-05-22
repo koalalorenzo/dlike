@@ -67,7 +67,7 @@ module.exports = {
     lazy: false,
     port: 9000,
     host: '0.0.0.0',
-    allowedHosts: ['*'],
+    allowedHosts: ['*', '.serveo.net', 'localhost', '127.0.0.1']
   },
   node: {
     fs: 'empty',
