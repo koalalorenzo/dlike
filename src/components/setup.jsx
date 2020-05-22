@@ -147,8 +147,8 @@ export default class Setup extends Component {
             <Row>
                <Col md="6" md-offset="3" sm="12">
                 <h3>Results</h3>
-                Widget Code: 
-                <Textarea defaultValue={buttonCode} />
+                <Textarea label="Widget HTML Code" defaultValue={buttonCode} />
+                <br />
                 This is your button running live: <br />
                 <br />
                 <LikeCounter 
@@ -157,8 +157,12 @@ export default class Setup extends Component {
                   className={this.state.customClassName} 
                   afterText={this.state.afterText} 
                 /><br />
+                <Input label="dbkey value" defaultValue={this.state.key} />
                 <br />
-                DO NOT close this window before visiting your website!
+                Remember: if the users are not able to retrieve the database from
+                other users they will not be able to see the button. To solve 
+                this try to keep this page up and running while you are asking 
+                other friends to test the widget.
               </Col>
             </Row>
           }
