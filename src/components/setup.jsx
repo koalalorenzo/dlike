@@ -105,8 +105,8 @@ export default class Setup extends Component {
             <Form>
               <h3>Create New Widget</h3>
               <Input 
-                label="Your domain:"
-                placeholder="example.com"
+                label="Your domain or page name"
+                placeholder="example.com-awesome-page"
                 value={this.state.domain}
                 onChange={this.updateDomainState.bind(this)} 
               />

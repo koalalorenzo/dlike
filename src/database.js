@@ -41,9 +41,8 @@ export function NewDomainDatabase(orbit, domain, options={}) {
 export function GetDomainDatabase(orbit, address, options={}) {
   console.log(`[GetDomainDatabase] Using ${address}`)
   return new Promise((resolve, reject) => {
-    // We tried counters, then key value containing counter addresses but it 
-    // was causing a lot of problems for connections, then the solution was 
-    // obvious: document db!
+
+    // Setup the counter Database
     const dbOptions = {...DEFAULT_DB_OPTIONS, ...options}
     console.log("[GetDomainDatabase] Got options", dbOptions)
     orbit.counter(address, dbOptions)
