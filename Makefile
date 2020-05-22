@@ -4,11 +4,10 @@ clean:
 	rm -rf dist node_modules
 .PHONY: clean 
 
-dependencies:
+node_modules:
 	yarn install --no-audit
-.PHONY: dependencies
 
-build: clean dependencies
+build: node_modules
 	node_modules/.bin/webpack --mode=${NODE_ENV}
 .PHONY: build 
 

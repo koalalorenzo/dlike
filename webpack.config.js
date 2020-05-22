@@ -2,11 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports = {
-  entry: {
-    dlike: path.resolve(__dirname, 'src/index.jsx'),
-    setup: path.resolve(__dirname, 'src/setup.jsx')
-  },
+const config = {
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: '[name].js',
@@ -22,6 +18,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "src/setup.ejs",
+      excludeChunks: [ 'dlike' ],
       filename: "index.html",
       inject: false,
       meta: {
@@ -82,3 +79,23 @@ module.exports = {
     }
   }
 }
+
+const dlike_widget = Object.assign({}, config, {
+  entry: {
+    dlike: path.resolve(__dirname, 'src/index.jsx'),
+  }
+})
+
+const setup_page = Object.assign({}, config, {
+  entry: {
+    setup: path.resolve(__dirname, 'src/setup.jsx')
+  },
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    filename: '[name].[contenthash].js',
+    pathinfo: false,
+    libraryTarget: 'umd'
+  },
+})
+
+module.exports = [setup_page, dlike_widget] 
