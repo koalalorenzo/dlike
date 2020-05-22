@@ -98,4 +98,4 @@ const setup_page = Object.assign({}, config, {
   },
 })
 
-module.exports = [setup_page, dlike_widget] 
+module.exports = [dlike_widget, setup_page] 
