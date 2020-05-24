@@ -12,21 +12,6 @@ const config = {
   resolve: {
     extensions: [ '.jsx', '.js' ]
   },
-  plugins: [
-    new webpack.BannerPlugin({
-      banner: 'Copyright (c) 2020-2021 Qm64 - [name] [hash] - [file]'
-    }),
-    new HtmlWebpackPlugin({
-      template: "src/setup.ejs",
-      excludeChunks: [ 'dlike' ],
-      filename: "index.html",
-      inject: false,
-      meta: {
-        charset: { charset: 'utf-8' }
-      },
-    })
-
-  ],
 	module: {
     rules: [
       {
@@ -83,7 +68,12 @@ const config = {
 const dlike_widget = Object.assign({}, config, {
   entry: {
     dlike: path.resolve(__dirname, 'src/index.jsx'),
-  }
+  },
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: 'Copyright (c) 2020-2021 Qm64 - [name] [hash] - [file]'
+    }),
+  ],
 })
 
 const setup_page = Object.assign({}, config, {
@@ -96,6 +86,19 @@ const setup_page = Object.assign({}, config, {
     pathinfo: false,
     libraryTarget: 'umd'
   },
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: 'Copyright (c) 2020-2021 Qm64 - [name] [hash] - [file]'
+    }),
+    new HtmlWebpackPlugin({
+      template: "src/setup.ejs",
+      filename: "index.html",
+      inject: false,
+      meta: {
+        charset: { charset: 'utf-8' }
+      },
+    })
+  ],
 })
 
 module.exports = [dlike_widget, setup_page] 
