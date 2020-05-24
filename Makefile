@@ -11,6 +11,6 @@ build: node_modules
 	node_modules/.bin/webpack --mode=${NODE_ENV}
 .PHONY: build 
 
-run: dependencies
+run: node_modules
 	node_modules/.bin/webpack-dev-server
 .PHONY: build 
