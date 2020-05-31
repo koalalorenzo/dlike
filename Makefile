@@ -1,7 +1,7 @@
 NODE_ENV ?= production
 
 clean:
-	rm -rf dist node_modules
+	rm -rf dist public node_modules
 .PHONY: clean 
 
 node_modules:
