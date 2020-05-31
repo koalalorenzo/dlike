@@ -1,39 +1,82 @@
-# dLike - Decentralised Like Widget for Static Websites
-A simple Widget for any website that uses IPFS and OrbitDB to sync with other
-users as well as with other services.
+<br />
+<p align="center">
+  <h3 align="center">dLike</h3>
 
-This is a [Qm64](https://qm64.tech) experiment!
+  <p align="center">
+    A simple Like Button / HTML Widget that uses IPFS and OrbitDB to sync data
+    without using central servers. [Experimental]
+    <br />
+    <br />
+    <a href="https://dlike.qm64.tech/">View Demo</a>
+    ·
+    <a href="https://qm64.tech/posts/202006-ipfs-orbitdb-likes/">Read More</a>
+  </p>
+</p>
+
+
+
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+
+* [About the Project](#about-the-project)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [License](#license)
+* [Contact](#contact)
+
+## About The Project
+
+[![dLike setup website](.readme/dlike-new-widget-example.gif)](https://dlike.qm64.tech/)
+
 
 This widget uses IPFS and OrbitDB to have a fully decentralised and p2p 
-"Like button" in the browser without custom daemon or central api servers. 
+"Like button" in the browser without any servers or FaaS. 
 **Important Note**: This project is just an experiment and far from being 
 production ready! 
 
-## Contributing
+This is a [Qm64](https://qm64.tech) experiment!
 
-Please check [the current known issues](https://gitlab.com/Qm64/dlike/-/issues)
-if you want to help! You can follow updates on this or other projects on:
+## Getting Started
+To run the software locally you don't need any configuration or download. You 
+can browse to [the setup page](https://dlike.qm64.tech/) and copy your HTML
+snippet. On the setup page you can also create a widget or load an existing one 
+by inserting the _dbkey_/Database Address.
 
-- [Main Website](https://qm64.tech)
-- [Telegram's Channel](https://t.me/qm64updates)
+If you instead want to modify the source code and run it locally you can follow
+these steps.
 
-## How to setup the widget
-To generate your own widget you can visit the 
-[project page](https://dlike.qm64.tech/) where you can setup it.
-There you can create a widget or load an existing one by knowing the DB Address.
-
-## Requirements
+### Prerequisites
+To run this software you need:
 
 - [Make](https://www.gnu.org/software/make/)
 - [NodeJS](https://nodejs.org/en/)
 - [yarn](https://yarnpkg.com/)
 
-## Running locally
-To run the project locally you can run from a shell:
-
-```bash
-make run 
+### Installation
+ 
+1. Clone the repo
+```sh
+git clone https://gitlab.com/Qm64/dlike.git
+```
+2. Run it locally
+```sh
+make run
 ```
 
-This will allow you to visit and test the source code locally on a web browser
-by visiting [http://127.0.0.1:9000](http://127.0.0.1:9000).
+This will run a local development server. Open a browser and visit 
+[localhost:9000](http://localhost:9000) to see the setup page and test the 
+changes.
+
+<!-- LICENSE -->
+## License
+
+Distributed under the GPLv3 License. See `LICENSE` for more information.
+
+
+<!-- CONTACT -->
+## Contact
+Lorenzo Setale - [@koalalorenzo](https://twitter.com/koalalorenzo) - [Website](https://setale.me/)
+
+* Project Blog Post: [https://qm64.tech/posts/202006-ipfs-orbitdb-likes/](https://qm64.tech/posts/202006-ipfs-orbitdb-likes/)
+* Project Link: [https://gitlab.com/Qm64/dlike](https://gitlab.com/Qm64/dlike)
